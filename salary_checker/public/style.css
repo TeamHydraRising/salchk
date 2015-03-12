@@ -1,0 +1,41 @@
+body{
+	background: steelblue;
+	font-family: 'Cabin', sans-serif;
+}
+
+div{
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+body:after {
+  content:"\00a9 Hydra-Rising";
+  padding: 625px;
+  position: relative;
+}
+
+h1{
+	padding-left: 450px;
+	font-size: 48px;
+	color: white;
+	position: relative;
+}
+
+h3{
+	padding-left: 550px;
+	padding-top: 70px;
+	font-size: 36px;
+	color: white;
+	position: relative;
+}
+
+
+p{
+	color: white;
+	margin: 20px auto;
+	padding: 50px;
+	border-width: 10px;
+	font-size: 20px;
+	position: relative;
+}
