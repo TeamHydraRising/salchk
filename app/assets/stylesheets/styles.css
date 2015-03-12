@@ -11,19 +11,19 @@ div{
 
 body:after {
   content:"\00a9 Hydra-Rising";
-  padding: 625px;
+  padding: 550px;
   position: relative;
 }
 
 h1{
-	padding-left: 450px;
+	padding-left: 400px;
 	font-size: 48px;
 	color: white;
 	position: relative;
 }
 
 h3{
-	padding-left: 550px;
+	padding-left: 500px;
 	padding-top: 70px;
 	font-size: 36px;
 	color: white;
