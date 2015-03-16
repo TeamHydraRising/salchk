@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
 	def index
 
-		api_key = 'giHyMhPCwiaGw3mZRzbky7tlYx7MySHPaonXGcAdvLT2Of2GOd0nkuJj2Q5AJMqU'
+		api_key = ENV['ZIP_API']
 		request = HTTParty.get("https://www.zipcodeapi.com/rest/"+api_key+"/info.json/#{params[:zipcode]}/miles")
 		agent = Mechanize.new
 		agent.get("http://livingwage.mit.edu/")
