@@ -1,0 +1,47 @@
+<%= form_for(@demographic) do |f| %>
+  <% if @demographic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@demographic.errors.count, "error") %> prohibited this monster from being saved:</h2>
+
+      <ul>
+      <% @demographic.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h2>Submit Your Demographic Information</h2>
+
+  <div class="field">
+    <%= f.label :zipcode %><br>
+    <%= f.text_field :zipcode %>
+  </div>
+  <div class="field">
+    <%= f.label :salary %><br>
+    <%= f.text_field :salary %>
+  </div>
+  <div class="field">
+    <%= f.label :industry %><br>
+    <%= f.text_field :industry %>
+  </div>
+  <div class="field">
+    <%= f.label :job_title %><br>
+    <%= f.text_field :job_title %>
+  </div>
+  <div class="field">
+    <%= f.label :gender %><br>
+    <%= f.text_field :gender %>
+  </div>
+  <div class="field">
+    <%= f.label :age %><br>
+    <%= f.text_field :age %>
+  </div>
+  <div class="field">
+    <%= f.label :ethnicity %><br>
+    <%= f.text_field :ethnicity %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Submit Your Information" %>
+  </div>
+<% end %>
