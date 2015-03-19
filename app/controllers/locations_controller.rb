@@ -11,158 +11,41 @@ class LocationsController < ApplicationController
 		key.submit
 		results = agent.page.parser
 
+		##Creates an array of hashes for all the information scraped from the page
+		num=0
+		sym_count = 0
+		expenses = results.css('.expenses_table td').to_a
+		wages = results.css('.wages_table td').to_a
+
+		wages_array=[]
+		expenses_array=[]
+		final_array=[]
 
 
-		living_wage = {  title: results.css('.wages_table td').to_a[0].children.text,
-						 one_adult: results.css('.wages_table td').to_a[1].children.text,
-						 one_adult_one_child: results.css('.wages_table td').to_a[2].children.text,
-						 one_adult_two_children: results.css('.wages_table td').to_a[3].children.text,
-						 one_adult_three_children: results.css('.wages_table td').to_a[4].children.text,
-						 two_adults: results.css('.wages_table td').to_a[5].children.text,
-						 two_adults_one_child: results.css('.wages_table td').to_a[6].children.text,
-						 two_adults_two_children: results.css('.wages_table td').to_a[7].children.text,
-						 two_adults_three_children: results.css('.wages_table td').to_a[8].children.text
-					   }
+		while num < expenses.count
 
-				
-				
-		poverty_wage = {title: results.css('.wages_table td').to_a[9].children.text,
-						one_adult: results.css('.wages_table td').to_a[10].children.text,
-						one_adult_one_child: results.css('.wages_table td').to_a[11].children.text,
-						one_adult_two_children: results.css('.wages_table td').to_a[12].children.text,
-						one_adult_three_children: results.css('.wages_table td').to_a[13].children.text,
-						two_adults: results.css('.wages_table td').to_a[14].children.text,
-						two_adults_one_child: results.css('.wages_table td').to_a[15].children.text,
-						two_adults_two_children: results.css('.wages_table td').to_a[16].children.text,
-						two_adults_three_children: results.css('.wages_table td').to_a[17].children.text
-						}
+			if num <= wages.count-1
+				hourly_wages =  {symbols[sym_count].to_sym => results.css(tables[0]+"_table td").to_a[num].children.text}
+				wages_array.push(hourly_wages)
 
-		
-		minimum_wage = {title: results.css('.wages_table td').to_a[18].children.text,
-						one_adult: results.css('.wages_table td').to_a[19].children.text,
-						one_adult_one_child: results.css('.wages_table td').to_a[20].children.text,
-						one_adult_two_children: results.css('.wages_table td').to_a[21].children.text,
-						one_adult_three_children: results.css('.wages_table td').to_a[22].children.text,
-						two_adults: results.css('.wages_table td').to_a[23].children.text,
-						two_adults_one_child: results.css('.wages_table td').to_a[24].children.text,
-						two_adults_two_children: results.css('.wages_table td').to_a[25].children.text,
-						two_adults_three_children: results.css('.wages_table td').to_a[26].children.text
-						}
+				monthly_expenses =  {symbols[sym_count].to_sym => results.css(tables[1]+"_table td").to_a[num].children.text}
+				expenses_array.push(monthly_expenses)
+			end
+			
+			if num > wages.count-1 && num <= expenses.count
+				monthly_expenses =  {symbols[sym_count].to_sym => results.css(tables[1]+"_table td").to_a[num].children.text}
+				expenses_array.push(monthly_expenses)
+			end	
 
+			sym_count+=1
+			num+=1
+			if sym_count >= 9
+				sym_count = 0
+			end		
+		end
 
-		 #Expenses Table
-		 food = {  		title: results.css('.expenses_table td').to_a[0].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[1].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[2].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[3].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[4].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[5].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[6].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[7].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[8].children.text
-				}
-
-		child_care= {  	 title: results.css('.expenses_table td').to_a[9].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[10].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[11].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[12].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[13].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[14].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[15].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[16].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[17].children.text
-				}
-
-		medical = {  	 title: results.css('.expenses_table td').to_a[18].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[19].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[20].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[21].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[22].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[23].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[24].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[25].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[26].children.text
-				}
-
-		housing = {  	 title: results.css('.expenses_table td').to_a[27].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[28].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[29].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[30].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[31].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[32].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[33].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[34].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[35].children.text
-				}
-
-		transportation = {  	 title: results.css('.expenses_table td').to_a[36].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[37].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[38].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[39].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[40].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[41].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[42].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[43].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[44].children.text
-						}
-
-		other = {  	 	 title: results.css('.expenses_table td').to_a[45].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[46].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[47].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[48].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[49].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[50].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[51].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[52].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[53].children.text
-						}
-
-
-		mo_inc_bftx= {  	 title: results.css('.expenses_table td').to_a[54].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[55].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[56].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[57].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[58].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[59].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[42].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[43].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[44].children.text
-						}
-
-		mo_inc_aftx = {  	 title: results.css('.expenses_table td').to_a[36].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[37].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[38].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[39].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[40].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[41].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[42].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[43].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[44].children.text
-						}
-
-		annual_tx = {  	 title: results.css('.expenses_table td').to_a[36].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[37].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[38].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[39].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[40].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[41].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[42].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[43].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[44].children.text
-						}
-
-		annual_inc_bftx = {  	 title: results.css('.expenses_table td').to_a[36].children.text,
-						 one_adult: results.css('.expenses_table td').to_a[37].children.text,
-						 one_adult_one_child: results.css('.expenses_table td').to_a[38].children.text,
-						 one_adult_two_children: results.css('.expenses_table td').to_a[39].children.text,
-						 one_adult_three_children: results.css('.expenses_table td').to_a[40].children.text,
-						 two_adults: results.css('.expenses_table td').to_a[41].children.text,
-						 two_adults_one_child: results.css('.expenses_table td').to_a[42].children.text,
-						 two_adults_two_children: results.css('.expenses_table td').to_a[43].children.text,
-						 two_adults_three_children: results.css('.expenses_table td').to_a[44].children.text
-						}
-				
-		final_array = [living_wage, poverty_wage, minimum_wage, food, child_care, medical, housing, transportation, other, mo_inc_bftx, mo_inc_aftx, annual_tx, annual_inc_bftx]
+		final_array.push(wages_array)
+		final_array.push(expenses_array)
 		
 			    respond_to do |format|
 					format.json {render json: final_array}
