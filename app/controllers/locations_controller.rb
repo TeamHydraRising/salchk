@@ -1,14 +1,17 @@
 class LocationsController < ApplicationController
 	def index
 
-		api_key = ENV['ZIP_API']
+		api_key = ENV['ZIP_API'] 
 
 		request = HTTParty.get("https://www.zipcodeapi.com/rest/"+api_key+"/info.json/#{params[:zipcode]}/miles")
 		agent = Mechanize.new
 		agent.get("http://livingwage.mit.edu/")
 		key = agent.page.forms[0]
 		key["q"]="#{request["city"]}, #{request["state"]}"
-		results = key.submit.parser
+		key.submit
+		results = agent.page.parser
+
+
 
 		living_wage = {  title: results.css('.wages_table td').to_a[0].children.text,
 						 one_adult: results.css('.wages_table td').to_a[1].children.text,
@@ -20,6 +23,7 @@ class LocationsController < ApplicationController
 						 two_adults_two_children: results.css('.wages_table td').to_a[7].children.text,
 						 two_adults_three_children: results.css('.wages_table td').to_a[8].children.text
 					   }
+
 				
 				
 		poverty_wage = {title: results.css('.wages_table td').to_a[9].children.text,
