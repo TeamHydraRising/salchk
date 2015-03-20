@@ -47,8 +47,8 @@ class LocationsController < ApplicationController
 		final_array.push(wages_array)
 		final_array.push(expenses_array)
 		
-			    respond_to do |format|
-					format.json {render json: final_array}
-				end
+		respond_to do |format|
+			format.json {render json: final_array}
+		end
 	end
 end
